@@ -27,7 +27,7 @@ Whiteboard = function(spawnPosition) {
     var whiteboardPosition = spawnPosition;
     var whiteboardRotation = orientation;
    
-    var WHITEBOARD_MODEL_URL = "http://hifi-content.s3.amazonaws.com/alan/dev/Whiteboard-6.fbx";
+    var WHITEBOARD_MODEL_URL = "https://hifi-public.s3.amazonaws.com/eric/whiteboard/assets/Whiteboard-6.fbx";
     var WHITEBOARD_COLLISION_HULL_URL = "https://hifi-content.s3.amazonaws.com/eric/models/whiteboardCollisionHull.obj";
    
     var whiteboard = Entities.addEntity({
@@ -38,6 +38,7 @@ Whiteboard = function(spawnPosition) {
         rotation: whiteboardRotation,
         shapeType: 'compound',
         compoundShapeURL: WHITEBOARD_COLLISION_HULL_URL,
+        lifetime: 3600,
         dimensions: {
             x: 1.86,
             y: 2.7,
@@ -69,6 +70,7 @@ Whiteboard = function(spawnPosition) {
             y: 1.8,
             z: 0.01
         },
+        lifetime: 3600,
         color: {
             red: 200,
             green: 10,
@@ -118,6 +120,7 @@ Whiteboard = function(spawnPosition) {
             y: 0.0393,
             z: 0.2083
         },
+        lifetime: 3600,
         rotation: eraserRotation,
         dynamic: true,
         gravity: {
@@ -222,6 +225,7 @@ Whiteboard = function(spawnPosition) {
                 y: 0.027,
                 z: 0.164
             },
+            lifetime: 3600,
             script: MARKER_SCRIPT_URL,
             userData: JSON.stringify({
                 'hifiHomeKey': {

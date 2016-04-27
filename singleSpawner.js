@@ -19,3 +19,5 @@ var whiteboardPath = 'https://hifi-public.s3.amazonaws.com/eric/whiteboard/wrapp
 Script.include(whiteboardPath);
 
 var whiteboard = new Whiteboard(center);
+
+Script.stop();
