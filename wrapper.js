@@ -51,16 +51,7 @@ Whiteboard = function(spawnPosition) {
         }),
     });
 
-    var scriptURL = Script.resolvePath("spawnMarkerEntityScript.js");
-    var markerSpawnButton = Entities.addEntity({
-        type: "Box",
-        dimensions: {x: 0.1, y: 0.1, z: 0.1},
-        color: {red: 200, green: 0, blue: 200},
-        position:whiteboardPosition,
-        rotation: whiteboardRotation,
-        userData: JSON.stringify({grabbableKey: {wantsTrigger: true}}),
-        script: scriptURL
-    });
+
 
 
 
@@ -99,13 +90,22 @@ Whiteboard = function(spawnPosition) {
     }
     var whiteboardFrontDrawingSurface = Entities.addEntity(whiteboardSurfaceSettings);
 
+    var scriptURL = Script.resolvePath("spawnMarkerEntityScript.js?v1" + Math.random());
+    var markerSpawnButton = Entities.addEntity({
+        type: "Box",
+        dimensions: {x: 0.1, y: 0.1, z: 0.1},
+        color: {red: 200, green: 0, blue: 200},
+        position:whiteboardPosition,
+        rotation: whiteboardRotation,
+        userData: JSON.stringify({grabbableKey: {wantsTrigger: true}}),
+        parentID: whiteboardFrontDrawingSurface,
+        script: scriptURL
+    });
 
     whiteboardBackSurfacePosition = Vec3.sum(whiteboardSurfacePosition, Vec3.multiply(moveForwardDistance, Quat.getFront(whiteboardRotation)));
     whiteboardSurfaceSettings.position = whiteboardBackSurfacePosition;
 
     var whiteboardBackDrawingSurface = Entities.addEntity(whiteboardSurfaceSettings);
-
-
     var WHITEBOARD_RACK_DEPTH = 1.9;
 
 
@@ -180,106 +180,7 @@ Whiteboard = function(spawnPosition) {
 
  // ************************************************************************************************* 
 
-    function createMarkers() {
-        var modelURLS = [
-            "https://hifi-content.s3.amazonaws.com/alan/dev/marker-blue.fbx",
-            "https://hifi-content.s3.amazonaws.com/alan/dev/marker-red.fbx",
-            "https://hifi-content.s3.amazonaws.com/alan/dev/marker-black.fbx",
-        ];
 
-
-        var markerPosition = Vec3.sum(spawnPosition, Vec3.multiply(Quat.getFront(whiteboardRotation), -0.1));
-
-        createMarker(modelURLS[0], markerPosition, {
-            red: 10,
-            green: 10,
-            blue: 200
-        });
-
-        markerPosition = Vec3.sum(markerPosition, Vec3.multiply(-0.2, Quat.getFront(markerRotation)));
-        createMarker(modelURLS[1], markerPosition, {
-            red: 200,
-            green: 10,
-            blue: 10
-        });
-
-        markerPosition = Vec3.sum(markerPosition, Vec3.multiply(0.4, Quat.getFront(markerRotation)));
-        createMarker(modelURLS[2], markerPosition, {
-            red: 10,
-            green: 10,
-            blue: 10
-        });
-    }
-
-
-    function createMarker(modelURL, markerPosition, markerColor) {
-        var marker = Entities.addEntity({
-            type: "Model",
-            modelURL: modelURL,
-            rotation: markerRotation,
-            shapeType: "box",
-            name: "home_model_marker",
-            dynamic: true,
-            gravity: {
-                x: 0,
-                y: -5,
-                z: 0
-            },
-            velocity: {
-                x: 0,
-                y: -0.1,
-                z: 0
-            },
-            position: markerPosition,
-            dimensions: {
-                x: 0.027,
-                y: 0.027,
-                z: 0.164
-            },
-            lifetime: 3600,
-            script: MARKER_SCRIPT_URL,
-            userData: JSON.stringify({
-                'hifiHomeKey': {
-                    'reset': true
-                },
-                originalPosition: markerPosition,
-                originalRotation: markerRotation,
-                markerColor: markerColor,
-                wearable: {
-                    joints: {
-                        RightHand: [{
-                            x: 0.001,
-                            y: 0.139,
-                            z: 0.050
-                        }, {
-                            x: -0.73,
-                            y: -0.043,
-                            z: -0.108,
-                            w: -0.666
-                        }],
-                        LeftHand: [{
-                            x: 0.007,
-                            y: 0.151,
-                            z: 0.061
-                        }, {
-                            x: -0.417,
-                            y: 0.631,
-                            z: -0.389,
-                            w: -0.525
-                        }]
-                    }
-                }
-            })
-        });
-
-        markers.push(marker);
-
-    }
-    var eraser;
-    Script.setTimeout(function() {
-        eraser = Entities.addEntity(eraserProps);
-        createMarkers();
-    }, 1500)
 
     function cleanup() {
         Entities.deleteEntity(whiteboard);

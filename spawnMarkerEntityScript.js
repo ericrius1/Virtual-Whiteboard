@@ -1,69 +1,80 @@
-//
-//  markerTipEntityScript.js
-//  examples/homeContent/markerTipEntityScript
-//
-//  Created by Eric Levin on 2/17/15.
-//  Copyright 2016 High Fidelity, Inc.
-//
-//  This script provides the logic for an object to draw marker strokes on its associated whiteboard
-
-//  Distributed under the Apache License, Version 2.0.
-//  See the accompanying file LICENSE or http://www.apache.org/licenses/LICENSE-2.0.html
-
-
-
 (function() {
 
-    Script.include('https://hifi-public.s3.amazonaws.com/eric/whiteboard/utils.js');
-    var TRIGGER_CONTROLS = [
-        Controller.Standard.LT,
-        Controller.Standard.RT,
-    ];
-
-    var MAX_POINTS_PER_STROKE = 40;
     var _this;
-
-    MarkerTip = function() {
+    MarkerSpawnerButton = function() {
         _this = this;
-        _this.MARKER_TEXTURE_URL = "https://hifi-content.s3.amazonaws.com/eric/textures/markerStroke.png";
-        _this.strokeForwardOffset = 0.0001;
-        _this.STROKE_WIDTH_RANGE = {
-            min: 0.002,
-            max: 0.01
-        };
-        _this.MAX_MARKER_TO_BOARD_DISTANCE = 1.4;
-        _this.MIN_DISTANCE_BETWEEN_POINTS = 0.002;
-        _this.MAX_DISTANCE_BETWEEN_POINTS = 0.1;
-        _this.strokes = [];
-        _this.PAINTING_TRIGGER_THRESHOLD = 0.2;
-        _this.STROKE_NAME = "home_polyline_markerStroke";
-        _this.WHITEBOARD_SURFACE_NAME = "home_box_whiteboardDrawingSurface"
-        _this.MARKER_RESET_WAIT_TIME = 3000;
-    };
-
-    MarkerTip.prototype = {
+        _this.markers = [];
+        _this.markerModelURLS = [
+            "http://hifi-content.s3.amazonaws.com/alan/dev/marker-black.fbx",
+            "http://hifi-content.s3.amazonaws.com/alan/dev/marker-blue.fbx",
+            "http://hifi-content.s3.amazonaws.com/alan/dev/marker-red.fbx"
+        ]
+    }
+    MarkerSpawnerButton.prototype = {
 
         startNearTrigger: function() {
             print("CLICK")
-            spawnMarkers();
+                // _this.spawnMarkers();
         },
 
         startFarTrigger: function() {
             print("CLICK")
-            spawnMarkers();
+            _this.spawnMarkers();
         },
 
         spawnMarkers: function() {
+            print("SPAWN MARKERS")
+            var props = Entities.getEntityProperties(_this.entityID);
+            var markerRotation = Quat.fromVec3Degrees({
+                x: props.rotation.x + 10,
+                y: props.rotation.y - 90,
+                z: props.rotation.z
+            });
+            for (var i = 0; i < 1; i++) {
+                var marker = Entities.addEntity({
+                    type: "Model",
+                    name: "whiteboard marker",
+                    modelURL: _this.markerModelURLS[i],
+                    shapeType: "box",
+                    dynamic: true,
+                    gravity: {
+                        x: 0,
+                        y: -5,
+                        z: 0
+                    },
+                    velocity: {
+                        x: 0,
+                        y: -0.1,
+                        z: 0
+                    },
+                    position: props.position,
+                    rotation: markerRotation,
+                    dimensions: {
+                        x: 0.027,
+                        y: 0.027,
+                        z: 0.164
+                    },
+                });
 
-        }
+                _this.markers.push(marker);
+            }
+
+
+        },
 
         preload: function(entityID) {
             this.entityID = entityID;
         },
 
+        unload: function() {
+            _this.markers.forEach(function(marker) {
+                Entities.deleteEntity(marker);
+            });
+        }
+
 
     };
 
     // entity scripts always need to return a newly constructed object of our type
-    return new MarkerTip();
+    return new MarkerSpawnerButton();
 });
