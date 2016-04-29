@@ -91,12 +91,12 @@ Whiteboard = function(spawnPosition) {
     var whiteboardFrontDrawingSurface = Entities.addEntity(whiteboardSurfaceSettings);
 
     var scriptURL = Script.resolvePath("spawnMarkerEntityScript.js?v1" + Math.random());
+    var buttonPosition = Vec3.sum(whiteboardPosition, {x: 0, y: 1.2, z: 0});
     var markerSpawnButton = Entities.addEntity({
         type: "Box",
-        dimensions: {x: 0.1, y: 0.1, z: 0.1},
+        dimensions: {x: 0.3, y: 0.2, z: 0.1},
         color: {red: 200, green: 0, blue: 200},
-        position:whiteboardPosition,
-        rotation: whiteboardRotation,
+        position: buttonPosition,
         userData: JSON.stringify({grabbableKey: {wantsTrigger: true}}),
         parentID: whiteboardFrontDrawingSurface,
         script: scriptURL
