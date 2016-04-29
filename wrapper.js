@@ -94,7 +94,7 @@ Whiteboard = function(spawnPosition) {
     var buttonPosition = Vec3.sum(whiteboardPosition, {x: 0, y: 1.2, z: 0});
     var markerSpawnButton = Entities.addEntity({
         type: "Box",
-        dimensions: {x: 0.3, y: 0.2, z: 0.1},
+        dimensions: {x: 0.3, y: 0.2, z: 0.07},
         color: {red: 200, green: 0, blue: 200},
         position: buttonPosition,
         userData: JSON.stringify({grabbableKey: {wantsTrigger: true}}),

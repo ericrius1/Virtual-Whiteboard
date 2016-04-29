@@ -25,41 +25,88 @@
         spawnMarkers: function() {
             print("SPAWN MARKERS")
             var props = Entities.getEntityProperties(_this.entityID);
+            var markerPosition = Vec3.sum(props.position, {x: 0, y: -0.5, z: 0.1});
             var markerRotation = Quat.fromVec3Degrees({
                 x: props.rotation.x + 10,
                 y: props.rotation.y - 90,
                 z: props.rotation.z
             });
-            for (var i = 0; i < 1; i++) {
-                var marker = Entities.addEntity({
-                    type: "Model",
-                    name: "whiteboard marker",
-                    modelURL: _this.markerModelURLS[i],
-                    shapeType: "box",
-                    dynamic: true,
-                    gravity: {
-                        x: 0,
-                        y: -5,
-                        z: 0
-                    },
-                    velocity: {
-                        x: 0,
-                        y: -0.1,
-                        z: 0
-                    },
-                    position: props.position,
-                    rotation: markerRotation,
-                    dimensions: {
-                        x: 0.027,
-                        y: 0.027,
-                        z: 0.164
-                    },
-                });
-
-                _this.markers.push(marker);
+            var userDataProps = {
+                wearable: {
+                    joints: {
+                        RightHand: [{
+                            x: 0.001,
+                            y: 0.139,
+                            z: 0.050
+                        }, {
+                            x: -0.73,
+                            y: -0.043,
+                            z: -0.108,
+                            w: -0.666
+                        }],
+                        LeftHand: [{
+                            x: 0.007,
+                            y: 0.151,
+                            z: 0.061
+                        }, {
+                            x: -0.417,
+                            y: 0.631,
+                            z: -0.389,
+                            w: -0.525
+                        }]
+                    }
+                }
             }
+            var markerProps = {
+                type: "Model",
+                name: "whiteboard marker",
+                shapeType: "box",
+                dynamic: true,
+                gravity: {
+                    x: 0,
+                    y: -5,
+                    z: 0
+                },
+                velocity: {
+                    x: 0,
+                    y: -0.1,
+                    z: 0
+                },
+                position: props.position,
+                rotation: markerRotation,
+                dimensions: {
+                    x: 0.027,
+                    y: 0.027,
+                    z: 0.164
+                }
+            };
 
+            userDataProps.markerColor = {
+                red: 10,
+                green: 10,
+                blue: 200
+            }
+            markerProps.modelURL = _this.markerModelURLS[0];
+            markerProps.userData = JSON.stringify(userDataProps);
+            _this.markers.push(Entities.addEntity(markerProps));
 
+            markerProps.modelURL = _this.markerModelURLS[1];
+            userDataProps.markerColor = {
+                red: 10,
+                green: 10,
+                blue: 10
+            }
+            markerProps.userData = JSON.stringify(userDataProps);
+            _this.markers.push(Entities.addEntity(markerProps));
+
+            markerProps.modelURL = _this.markerModelURLS[2];
+            userDataProps.markerColor = {
+                red: 10,
+                green: 10,
+                blue: 200
+            }
+            markerProps.userData = JSON.stringify(userDataProps);
+            _this.markers.push(Entities.addEntity(markerProps));
         },
 
         preload: function(entityID) {
