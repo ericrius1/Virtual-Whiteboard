@@ -113,8 +113,6 @@ Whiteboard = function(spawnPosition) {
     // ************ ERASER ************************************************
     var ERASER_MODEL_URL = "http://hifi-content.s3.amazonaws.com/alan/dev/eraser-2.fbx";
 
-
-
     var eraserPosition = Vec3.sum(spawnPosition, Vec3.multiply(Quat.getFront(whiteboardRotation), -0.1));
     eraserPosition = Vec3.sum(eraserPosition, Vec3.multiply(-0.5, Quat.getRight(whiteboardRotation)));
     var eraserRotation = markerRotation;

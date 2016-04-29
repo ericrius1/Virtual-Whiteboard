@@ -1,15 +1,18 @@
 (function() {
 
     var _this;
+    var SCRIPT_URL = Script.resolvePath("markerEntityScript.js");
     MarkerSpawnerButton = function() {
         _this = this;
         _this.markers = [];
         _this.markerModelURLS = [
-            "http://hifi-content.s3.amazonaws.com/alan/dev/marker-black.fbx",
-            "http://hifi-content.s3.amazonaws.com/alan/dev/marker-blue.fbx",
-            "http://hifi-content.s3.amazonaws.com/alan/dev/marker-red.fbx"
+           "https://hifi-content.s3.amazonaws.com/eric/models/marker-black.fbx",
+           "https://hifi-content.s3.amazonaws.com/eric/models/marker-blue.fbx",
+           "https://hifi-content.s3.amazonaws.com/eric/models/marker-red.fbx"
         ]
     }
+
+
     MarkerSpawnerButton.prototype = {
 
         startNearTrigger: function() {
@@ -78,7 +81,8 @@
                     x: 0.027,
                     y: 0.027,
                     z: 0.164
-                }
+                },
+                script: SCRIPT_URL
             };
 
             userDataProps.markerColor = {
