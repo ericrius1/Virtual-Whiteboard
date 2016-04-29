@@ -15,9 +15,8 @@ orientation.x = 0;
 orientation = Quat.fromVec3Degrees(orientation);
 var center = Vec3.sum(MyAvatar.getHeadPosition(), Vec3.multiply(2, Quat.getFront(orientation)));
 
-var whiteboardPath = 'https://hifi-public.s3.amazonaws.com/eric/whiteboard/wrapper.js';
+var whiteboardPath = 'wrapper.js';
 Script.include(whiteboardPath);
-
 var whiteboard = new Whiteboard(center);
 
-Script.stop();
+// Script.stop();

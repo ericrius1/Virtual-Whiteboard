@@ -51,6 +51,17 @@ Whiteboard = function(spawnPosition) {
         }),
     });
 
+    var scriptURL = Script.resolvePath("spawnMarkerEntityScript.js");
+    var markerSpawnButton = Entities.addEntity({
+        type: "Box",
+        dimensions: {x: 0.1, y: 0.1, z: 0.1},
+        color: {red: 200, green: 0, blue: 200},
+        position:whiteboardPosition,
+        rotation: whiteboardRotation,
+        userData: JSON.stringify({grabbableKey: {wantsTrigger: true}}),
+        script: scriptURL
+    });
+
 
 
     var whiteboardSurfacePosition = Vec3.sum(whiteboardPosition, {
@@ -274,6 +285,7 @@ Whiteboard = function(spawnPosition) {
         Entities.deleteEntity(whiteboard);
         Entities.deleteEntity(whiteboardFrontDrawingSurface);
         Entities.deleteEntity(whiteboardBackDrawingSurface);
+        Entities.deleteEntity(markerSpawnButton);
         Entities.deleteEntity(eraser);
         markers.forEach(function(marker) {
             Entities.deleteEntity(marker);
