@@ -1,8 +1,8 @@
 (function() {
 
     var _this;
-    var MARKER_SCRIPT_URL = Script.resolvePath("markerEntityScript.js");
-    var ERASER_SCRIPT_URL = Script.resolvePath("eraserEntityScript.js");
+    var MARKER_SCRIPT_URL = "https://hifi-public.s3.amazonaws.com/eric/whiteboard/markerEntityScript.js";
+    var ERASER_SCRIPT_URL = "https://hifi-public.s3.amazonaws.com/eric/whiteboard/eraserEntityScript.js";
     MarkerSpawnerButton = function() {
         _this = this;
         _this.markers = [];
@@ -17,13 +17,11 @@
     MarkerSpawnerButton.prototype = {
 
         startNearTrigger: function() {
-            print("CLICK")
             _this.spawnMarkers();
             _this.spawnEraser();
         },
 
         startFarTrigger: function() {
-            print("CLICK")
             _this.spawnMarkers();
             _this.spawnEraser();
         },

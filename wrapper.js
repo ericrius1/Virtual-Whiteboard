@@ -90,7 +90,7 @@ Whiteboard = function(spawnPosition) {
     }
     var whiteboardFrontDrawingSurface = Entities.addEntity(whiteboardSurfaceSettings);
 
-    var scriptURL = Script.resolvePath("spawnMarkerEntityScript.js?v1" + Math.random());
+    var scriptURL = "https://hifi-public.s3.amazonaws.com/eric/whiteboard/spawnMarkerEntityScript.js"
     var buttonPosition = Vec3.sum(whiteboardPosition, {x: 0, y: 1.2, z: 0});
     var markerSpawnButton = Entities.addEntity({
         type: "Box",
@@ -113,9 +113,7 @@ Whiteboard = function(spawnPosition) {
     // ************ ERASER ************************************************
     var ERASER_MODEL_URL = "http://hifi-content.s3.amazonaws.com/alan/dev/eraser-2.fbx";
 
-    var eraserPosition = Vec3.sum(spawnPosition, Vec3.multiply(Quat.getFront(whiteboardRotation), -0.1));
-    eraserPosition = Vec3.sum(eraserPosition, Vec3.multiply(-0.5, Quat.getRight(whiteboardRotation)));
-    var eraserRotation = markerRotation;
+
 
     var eraserProps = {
         type: "Model",

@@ -19,4 +19,4 @@ var whiteboardPath = 'wrapper.js';
 Script.include(whiteboardPath);
 var whiteboard = new Whiteboard(center);
 
-// Script.stop();
+Script.stop();
