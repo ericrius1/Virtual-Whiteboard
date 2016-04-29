@@ -6,9 +6,9 @@
         _this = this;
         _this.markers = [];
         _this.markerModelURLS = [
-           "https://hifi-content.s3.amazonaws.com/eric/models/marker-black.fbx",
-           "https://hifi-content.s3.amazonaws.com/eric/models/marker-blue.fbx",
-           "https://hifi-content.s3.amazonaws.com/eric/models/marker-red.fbx"
+            "https://hifi-content.s3.amazonaws.com/eric/models/marker-black.fbx",
+            "https://hifi-content.s3.amazonaws.com/eric/models/marker-blue.fbx",
+            "https://hifi-content.s3.amazonaws.com/eric/models/marker-red.fbx"
         ]
     }
 
@@ -17,7 +17,7 @@
 
         startNearTrigger: function() {
             print("CLICK")
-                // _this.spawnMarkers();
+            _this.spawnMarkers();
         },
 
         startFarTrigger: function() {
@@ -28,7 +28,14 @@
         spawnMarkers: function() {
             print("SPAWN MARKERS")
             var props = Entities.getEntityProperties(_this.entityID);
-            var markerPosition = Vec3.sum(props.position, {x: 0, y: -0.5, z: 0.1});
+            var rightDir = Quat.getRight(props.rotation);
+            var frontDir = Quat.getFront(props.rotation);
+            var markerPosition = Vec3.sum(props.position, {
+                x: 0,
+                y: -0.8,
+                z: 0.0
+            });
+            markerPosition = Vec3.sum(markerPosition, Vec3.multiply(-0.1, frontDir));
             var markerRotation = Quat.fromVec3Degrees({
                 x: props.rotation.x + 10,
                 y: props.rotation.y - 90,
@@ -75,7 +82,7 @@
                     y: -0.1,
                     z: 0
                 },
-                position: props.position,
+                position: markerPosition,
                 rotation: markerRotation,
                 dimensions: {
                     x: 0.027,
@@ -94,6 +101,7 @@
             markerProps.userData = JSON.stringify(userDataProps);
             _this.markers.push(Entities.addEntity(markerProps));
 
+            markerPosition = Vec3.sum(markerPosition, Vec3.multiply(rightDir, 0.2));
             markerProps.modelURL = _this.markerModelURLS[1];
             userDataProps.markerColor = {
                 red: 10,
@@ -101,8 +109,11 @@
                 blue: 10
             }
             markerProps.userData = JSON.stringify(userDataProps);
+            markerProps.position = markerPosition;
             _this.markers.push(Entities.addEntity(markerProps));
 
+            markerPosition = Vec3.sum(markerPosition, Vec3.multiply(rightDir, 0.2));
+            markerProps.position = markerPosition;
             markerProps.modelURL = _this.markerModelURLS[2];
             userDataProps.markerColor = {
                 red: 10,
